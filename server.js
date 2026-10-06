@@ -27,16 +27,16 @@ app.get('/api/fatsecret-token', async (req, res) => {
     }
 });
 
-// ROUTE 2: The New Middleman for Searching Food
+// Middleman for Searching Food
 app.get('/api/search-food', async (req, res) => {
-    // We grab the query (Greek Yogurt) and the token from React's request
+    // grab the query ( likeGreek Yogurt) and the token from React's request
     const searchQuery = req.query.q;
     const token = req.headers.authorization;
 
     try {
         const searchUrl = `https://platform.fatsecret.com/rest/foods/search/v1?search_expression=${encodeURIComponent(searchQuery)}&format=json&max_results=5`;
         
-        // The Proxy asks FatSecret securely
+        // Request sent to FatSecret (Undercover lol)
         const response = await fetch(searchUrl, {
             method: 'GET',
             headers: {
@@ -45,7 +45,7 @@ app.get('/api/search-food', async (req, res) => {
         });
 
         const data = await response.json();
-        // The Proxy hands the raw food data back to React
+        // The Proxy gives raw food data back to React
         res.json(data);
 
     } catch (error) {
@@ -59,13 +59,13 @@ app.listen(PORT, () => {
     console.log(`BVLTRA Proxy Engine running on port ${PORT}`);
 });
 
-// ROUTE 3: The Deep Dive (Gets full nutrient profile by ID)
+// gets full nutrient profile by ID
 app.get('/api/get-food', async (req, res) => {
     const foodId = req.query.id;
     const token = req.headers.authorization;
 
     try {
-        // We use the singular 'food/v1' endpoint here
+        // singular 'food/v1' endpoint
         const url = `https://platform.fatsecret.com/rest/food/v1?food_id=${foodId}&format=json`;
         
         const response = await fetch(url, {
